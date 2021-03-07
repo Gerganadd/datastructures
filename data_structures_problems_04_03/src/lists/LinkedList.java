@@ -3,17 +3,11 @@ package lists;
 public class LinkedList <T> implements List
 {
 	Node <T> linkedList;
-	int index;
-	
-	public LinkedList()
-	{
-		this.index = 0;
-	}
-	
+ 
 	@Override
 	public boolean isEmpty() 
 	{
-		return index == 0;
+		return this.getLastIndex() == 0;
 	}
 
 	@Override
@@ -37,22 +31,36 @@ public class LinkedList <T> implements List
 	public void add(Object item) 
 	{
 		this.linkedList = new Node<T>((T)item, this.linkedList);
-		this.index++;
 	}
 
 	@Override
-	public void insertAt(Object item, int index) 
+	public void insertAt(Object item, int index)
 	{
-		checkIndex(index);
-		//...
+		Node<T> nextNode = (Node<T>) this.get(index - 1);
+		Node<T> newNode = new Node<T>((T)item, nextNode);
+		Node<T> current = (Node<T>) this.get(index);
 		
+		current.next = newNode;
+		
+		return;
 	}
 
 	@Override
 	public void removeFrom(int index) 
 	{
-		checkIndex(index);
-		//...
+		int lenght = this.getLastIndex();
+		if (index == lenght)
+		{
+			// add remove for last added element
+			return;
+		}
+		
+		Node<T> previous = (Node<T>) this.get(index + 1);
+		Node<T> element = (Node<T>) this.get(index);
+	
+		previous.next = element.next;
+		
+		return;
 	}
 
 	@Override
@@ -60,29 +68,62 @@ public class LinkedList <T> implements List
 	{
 		Node<T> current = this.linkedList;
 		
-		while(current != null)
-		{
-			if (current.data == item)
-			{
-				//...
-			}
-			current = current.next;
-		}
+		int index = this.getLastIndex();
 		
+		if (this.contains(item))
+		{
+			while(current != null && current.data != item)
+			{
+				current = current.next;
+				index--;
+			}
+			this.removeFrom(index);
+		}
+		else 
+		{
+			throw new IllegalArgumentException("The list doesn't contains this item");
+		}
 	}
 
 	@Override
-	public Object get(int index) 
+	public T get(int index) 
 	{
 		checkIndex(index);
-		//...
-		return null;
+		
+		Node<T> currentNode = linkedList;
+		
+		int lenght = this.getLastIndex();
+		while(lenght != index)
+		{
+			currentNode = currentNode.next;
+			lenght--;
+		}
+		
+		return (T) currentNode;
 	}
 
 	@Override
 	public void clear() 
 	{
-		//this.lastIndex = 0;
+		int index = this.getLastIndex();
+		while(index > 0)
+		{
+			this.removeFrom(index);
+			index--;
+		}
+	}
+	
+	public int getLastIndex()
+	{
+		Node<T> current = this.linkedList;
+		int counter = 0;
+		
+		while(current != null)
+		{
+			counter++;
+			current = current.next;
+		}
+		return counter;
 	}
 	
 	public void print()
@@ -98,9 +139,12 @@ public class LinkedList <T> implements List
 	
 	private void checkIndex(int index)
 	{
+		int lenght = this.getLastIndex();
+		
 		if(index < 0)
 			throw new IllegalArgumentException("index must be bigger than 0!");
-		if(index > this.index)
+		
+		if(index > lenght)
 			throw new IllegalArgumentException("index must be less than the length of list!");
 	}
 }
