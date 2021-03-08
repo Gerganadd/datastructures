@@ -48,17 +48,19 @@ public class LinkedList <T> implements List
 	@Override
 	public void removeFrom(int index) 
 	{
+		Node<T> element = (Node<T>) this.get(index);
+		
 		int lenght = this.getLastIndex();
+		
 		if (index == lenght)
 		{
-			// add remove for last added element
-			return;
+			this.linkedList = (Node<T>) this.get(index - 1);
 		}
-		
-		Node<T> previous = (Node<T>) this.get(index + 1);
-		Node<T> element = (Node<T>) this.get(index);
-	
-		previous.next = element.next;
+		else
+		{
+			Node<T> previous = (Node<T>) this.get(index + 1);
+			previous.next = element.next;
+		}
 		
 		return;
 	}
