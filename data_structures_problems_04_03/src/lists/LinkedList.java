@@ -5,13 +5,13 @@ public class LinkedList <T> implements List
 	Node <T> linkedList;
  
 	@Override
-	public boolean isEmpty() 
+	public boolean isEmpty() // O = n
 	{
 		return this.getLastIndex() == 0;
 	}
 
 	@Override
-	public boolean contains(Object item) 
+	public boolean contains(Object item) // O ~~ n
 	{
 		Node<T> current = this.linkedList;
 		
@@ -28,17 +28,17 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public void add(Object item) 
+	public void add(Object item) // O = 1
 	{
 		this.linkedList = new Node<T>((T)item, this.linkedList);
 	}
 
 	@Override
-	public void insertAt(Object item, int index)
+	public void insertAt(Object item, int index) // O(2n)
 	{
-		Node<T> nextNode = (Node<T>) this.get(index - 1);
+		Node<T> nextNode = (Node<T>) this.get(index - 1); // O(n)
 		Node<T> newNode = new Node<T>((T)item, nextNode);
-		Node<T> current = (Node<T>) this.get(index);
+		Node<T> current = (Node<T>) this.get(index); // O(n)
 		
 		current.next = newNode;
 		
@@ -46,19 +46,26 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public void removeFrom(int index) 
+	public void removeFrom(int index) // O(7n)
 	{
-		Node<T> element = (Node<T>) this.get(index);
+		Node<T> element = (Node<T>) this.get(index); // O(3n)
 		
-		int lenght = this.getLastIndex();
+		int lenght = this.getLastIndex(); // O(n)
 		
 		if (index == lenght)
 		{
-			this.linkedList = (Node<T>) this.get(index - 1);
+			if (lenght == 1)
+			{
+				this.linkedList = null;
+			}
+			else 
+			{
+				this.linkedList = (Node<T>) this.get(index - 1); // O(3n)
+			}
 		}
 		else
 		{
-			Node<T> previous = (Node<T>) this.get(index + 1);
+			Node<T> previous = (Node<T>) this.get(index + 1); // O(3n)
 			previous.next = element.next;
 		}
 		
@@ -66,20 +73,20 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public void remove(Object item) 
+	public void remove(Object item) // O(9n)
 	{
 		Node<T> current = this.linkedList;
 		
-		int index = this.getLastIndex();
+		int index = this.getLastIndex(); // O(n)
 		
-		if (this.contains(item))
+		if (this.contains(item)) 
 		{
-			while(current != null && current.data != item)
+			while(current != null && current.data != item) // O(n)
 			{
 				current = current.next;
 				index--;
 			}
-			this.removeFrom(index);
+			this.removeFrom(index); // O(7n)
 		}
 		else 
 		{
@@ -88,14 +95,15 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public T get(int index) 
+	public T get(int index) // O(3n)
 	{
-		checkIndex(index);
+		checkIndex(index); // O(n)
 		
 		Node<T> currentNode = linkedList;
 		
-		int lenght = this.getLastIndex();
-		while(lenght != index)
+		int lenght = this.getLastIndex(); // O(n)
+		
+		while(lenght != index) // O(n)
 		{
 			currentNode = currentNode.next;
 			lenght--;
@@ -105,7 +113,7 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public void clear() 
+	public void clear() // O(n)
 	{
 		int index = this.getLastIndex();
 		while(index > 0)
@@ -115,7 +123,7 @@ public class LinkedList <T> implements List
 		}
 	}
 	
-	public int getLastIndex()
+	public int getLastIndex() // O(n)
 	{
 		Node<T> current = this.linkedList;
 		int counter = 0;
@@ -128,7 +136,7 @@ public class LinkedList <T> implements List
 		return counter;
 	}
 	
-	public void print()
+	public void print() // O(n)
 	{
 		Node<T> current = this.linkedList;
 		
@@ -139,11 +147,11 @@ public class LinkedList <T> implements List
 		}
 	}
 	
-	private void checkIndex(int index)
+	private void checkIndex(int index) // O(n)
 	{
-		int lenght = this.getLastIndex();
+		int lenght = this.getLastIndex(); // O(n)
 		
-		if(index < 0)
+		if(index < 0) 
 			throw new IllegalArgumentException("index must be bigger than 0!");
 		
 		if(index > lenght)
