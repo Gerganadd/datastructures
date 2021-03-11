@@ -7,7 +7,7 @@ public class LinkedList <T> implements List
 	@Override
 	public boolean isEmpty() // O = n
 	{
-		return this.getLastIndex() == 0;
+		return this.linkedList == null;
 	}
 
 	@Override
@@ -113,14 +113,9 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public void clear() // O(n)
+	public void clear() // O(1)
 	{
-		int index = this.getLastIndex();
-		while(index > 0)
-		{
-			this.removeFrom(index);
-			index--;
-		}
+		this.linkedList = null;
 	}
 	
 	public int getLastIndex() // O(n)
