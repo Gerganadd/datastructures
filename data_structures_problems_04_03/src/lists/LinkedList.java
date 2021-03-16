@@ -5,13 +5,13 @@ public class LinkedList <T> implements List
 	Node <T> linkedList;
  
 	@Override
-	public boolean isEmpty() // O = n
+	public boolean isEmpty() // O(1)
 	{
 		return this.linkedList == null;
 	}
 
 	@Override
-	public boolean contains(Object item) // O ~~ n
+	public boolean contains(Object item) // O(n)
 	{
 		Node<T> current = this.linkedList;
 		
@@ -109,7 +109,7 @@ public class LinkedList <T> implements List
 			lenght--;
 		}
 		
-		return (T) currentNode;
+		return (T) currentNode.data;
 	}
 
 	@Override
