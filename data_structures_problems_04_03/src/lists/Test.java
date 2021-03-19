@@ -9,11 +9,12 @@ public class Test {
 		list.add(34);  // index : 3
 		list.add(45);  // index : 4
 		list.print();
-		System.out.println("*********");
-		list.clear();
-		list.print();*/
+		//System.out.println("*********");
+		//list.clear();
+		//list.print();
+		*/
 		
-		SortedList<Integer> sortedList = new SortedList<Integer>();
+		/*SortedList<Integer> sortedList = new SortedList<Integer>();
 		//System.out.println(sortedList.contains(12));
 		sortedList.add(-1);
 		sortedList.add(0);
@@ -32,6 +33,18 @@ public class Test {
 		//System.out.println(sortedList.contains(15));
 		//sortedList.remove(15);
 		//System.out.println(sortedList.contains(15));
+		*/
+		
+		Stack stack = new Stack();
+		stack.push(12);
+		stack.push(23);
+		stack.push(14);
+		stack.push(43);
+		
+		System.out.println(stack.contains(14));
+		stack.pop();
+		
+		stack.print();
 		
 	}
 
