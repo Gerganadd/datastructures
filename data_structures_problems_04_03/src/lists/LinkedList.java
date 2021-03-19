@@ -1,6 +1,6 @@
 package lists;
 
-public class LinkedList <T> implements List
+public class LinkedList<T extends Comparable<T>> implements List
 {
 	Node <T> linkedList;
  
@@ -17,7 +17,7 @@ public class LinkedList <T> implements List
 		
 		while(current != null)
 		{
-			if (current.data == item)
+			if (current.data.equals(item))
 			{
 				return true;
 			}
@@ -28,9 +28,23 @@ public class LinkedList <T> implements List
 	}
 
 	@Override
-	public void add(Object item) // O = 1
+	public void add(Object item) // O(n)
 	{
-		this.linkedList = new Node<T>((T)item, this.linkedList);
+		if (isEmpty())
+		{
+			this.linkedList = new Node(item);
+		}
+		else
+		{
+			Node<T> current = this.linkedList;
+			
+			while (current.next != null)
+			{
+				current = current.next;
+			}
+			
+			current.next = new Node(item, null);
+		}
 	}
 
 	@Override
@@ -101,12 +115,12 @@ public class LinkedList <T> implements List
 		
 		Node<T> currentNode = linkedList;
 		
-		int lenght = this.getLastIndex(); // O(n)
+		int lenght = 0; // O(n)
 		
 		while(lenght != index) // O(n)
 		{
 			currentNode = currentNode.next;
-			lenght--;
+			lenght++;
 		}
 		
 		return (T) currentNode.data;
@@ -151,5 +165,18 @@ public class LinkedList <T> implements List
 		
 		if(index > lenght)
 			throw new IllegalArgumentException("index must be less than the length of list!");
+	}
+	
+	public String toString()
+	{
+		String result  = "";
+		Node<T> current = this.linkedList;
+		while(current != null)
+		{
+			result += current.data;
+			current =current.next;
+		}
+		
+		return result;
 	}
 }
